@@ -45,19 +45,90 @@ class Calculator {
         return lhs / rhs
     }
     
+    // mathOp
+    func mathOp(lhs: Int, rhs: Int, op: (Int, Int) -> Int) -> Int {
+        return op(lhs, rhs)
+    }
+    
+    // arrays
+    func add(_ args: [Int]) -> Int {
+        var total = 0
+        for num in args {
+            total += num
+        }
+        return total
+    }
+    
+    func multiply(_ args: [Int]) -> Int {
+        var product = 1
+        for num in args {
+            product *= num
+        }
+        return product
+    }
+    
+    func count(_ args: [Int]) -> Int {
+        return args.count
+    }
+    
+    func avg(_ args: [Int]) -> Int {
+        guard !args.isEmpty else { return 0 }
+        var sum = 0
+        for num in args {
+            sum += num
+        }
+        return sum / args.count
+    }
+    
+    // array - mathOp
+    func mathOp(args: [Int], beg: Int, op: (Int, Int) -> Int) -> Int {
+           var result = beg
+           for num in args {
+               result = op(result, num)
+           }
+           return result
+       }
+       
+       func add(lhs: (Int, Int), rhs: (Int, Int)) -> (Int, Int) {
+           return (lhs.0 + rhs.0, lhs.1 + rhs.1)
+       }
+       
+       func subtract(lhs: (Int, Int), rhs: (Int, Int)) -> (Int, Int) {
+           return (lhs.0 - rhs.0, lhs.1 - rhs.1)
+       }
+    
+    //Cartesian points
+    func add(lhs: [String: Int], rhs: [String: Int]) -> [String: Int] {
+        var result = [String: Int]()
+
+        let leftX = lhs["x"]
+        let rightX = rhs["x"]
+        let leftY = lhs["y"]
+        let rightY = rhs["y"]
+        
+        if leftX != nil && rightX != nil {
+            result["x"] = leftX! + rightX!
+        }
+        if leftY != nil && rightY != nil {
+            result["y"] = leftY! + rightY!
+        }
+        return result
     }
     
     func subtract(lhs: [String: Int], rhs: [String: Int]) -> [String: Int] {
-        var result: [String: Int] = [:]
+        var result = [String: Int]()
         
-        if let lhsX = lhs["x"], let rhsX = rhs["x"] {
-            result["x"] = lhsX - rhsX
+        let leftY = lhs["y"]
+        let rightY = rhs["y"]
+        let leftX = lhs["x"]
+        let rightX = rhs["x"]
+
+        if leftX != nil && rightX != nil {
+            result["x"] = leftX! - rightX!
         }
-        
-        if let lhsY = lhs["y"], let rhsY = rhs["y"] {
-            result["y"] = lhsY - rhsY
+        if leftY != nil && rightY != nil {
+            result["y"] = leftY! - rightY!
         }
-        
         return result
     }
 }
@@ -75,6 +146,36 @@ let calc = Calculator()
 //: Keep in mind that writing new tests may reveal ambiguity in the specification above--if that's the case, document the ambiguity, declare what you think *should* happen, and write the test to test for it.
 
 // ===== Your tests go here
+// empty case
+let emptyArray: [Int] = []
+calc.add(emptyArray) == 0
+calc.multiply(emptyArray) == 1
+calc.count(emptyArray) == 0
+calc.avg(emptyArray) == 0
+
+let emptyDict1: [String: Int] = [:]
+let emptyDict2: [String: Int] = [:]
+calc.add(lhs: emptyDict1, rhs: emptyDict2) == [:]
+
+// same point case
+let samePoint1 = (5, 5)
+let samePoint2 = (5, 5)
+calc.add(lhs: samePoint1, rhs: samePoint2) == (10, 10)
+calc.subtract(lhs: samePoint1, rhs: samePoint2) == (0, 0)
+
+// negative case
+let p6 = (-3, -4)
+let p7 = (9, 8)
+let p8 = (7, -8)
+calc.add(lhs: p6, rhs: p8) == (4, -12)
+calc.subtract(lhs: p7, rhs: p6) == (12, 12)
+//: ---
+//: ## Test code block
+//: Do not modify the code in this section
+
+//: ---
+//: ## Test code block
+//: Do not modify the code in this section
 
 //: ---
 //: ## Test code block
